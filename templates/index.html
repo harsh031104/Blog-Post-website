@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+    <title>Microblog</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar__brand">
+            <img class="navbar__logo" src="/static/lllogo.jpeg" alt="microblog logo" height="50px" width="60px"/> Microblog
+        </div>
+        <ul class="navbar__navigation">
+            <li class="navbar__navigation-item"><a href="#" class="navbar__link">Recent</a></li>
+            <li class="navbar__navigation-item"><a href="#" class="navbar__link" id="calendar-link">Calendar</a></li>
+            <div id="calendar-container" style="display:none;">
+                <input type="text" id="calendar" placeholder="Select a date">
+            </div>
+        </ul>
+        
+    </header>
+    <main class="main">
+        <section>
+            <h1>Add new entry</h1>
+            <form class="form" method="post">
+                <p class="form__input">
+                    <label for="entry" class="form__label">Entry contents :</label>
+                    <textarea name="content" id="entry" class="form__textarea"></textarea>
+                </p>
+                <button type="submit" class="form__submit">Add entry</button>
+            </form>
+        </section>
+        <section>
+            <h1>Recent posts</h1>
+            {% if no_entries %}
+            <p>No posts available for the selected date.</p>
+            {% else %}
+            {% for entry in entries %}
+            <article>
+                <div>
+                    <h2 class="entry__title">{{ entry[0] | truncate(20, true) }}</h2>
+                    <time class="entry__date" datetime="{{ entry[1] }}">{{ entry[2] }}</time>
+                </div>
+                <p>{{ entry[0] }}</p>
+            </article>
+            {% endfor %}
+            {% endif %}
+        </section>
+    </main>
+    <footer class="footer">
+        <div class="footer__content">
+            <section class="left">
+                <a class="footer__item">Made by Harsh Kumar</a>
+                <a class="footer__item">It is Quite simple</a>
+            </section>
+            <section class="right">
+                <div class="footer__column">
+                    <a class="footer__item">Recent</a>
+                    <a class="footer__item">Calendar</a>
+                </div>
+                <div class="footer__column">
+                    <a href="#" class="footer__item">About</a>
+                    <a class="footer__item">How this was made</a>
+                </div>
+            </section>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('calendar-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            const calendarContainer = document.getElementById('calendar-container');
+            calendarContainer.style.display = calendarContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        flatpickr("#calendar", {
+            onChange: function(selectedDates, dateStr, instance) {
+                window.location.href = "/?date=" + dateStr;
+            }
+        });
+    </script>
+</body>
