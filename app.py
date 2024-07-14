@@ -33,4 +33,4 @@ def index():
     return render_template("index.html", entries=entries_with_date, no_entries=no_entries)
 
 if __name__ == '__main__':
-    app.run(debug=False , host='0.0.0.0' )
+    app.run(debug=False )
