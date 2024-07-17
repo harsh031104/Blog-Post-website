@@ -3,7 +3,7 @@ import datetime
 from pymongo import MongoClient
 
 app = Flask(__name__)
-client = MongoClient('localhost', 27017)
+client = MongoClient("mongodb+srv://himansh03112004:harsh2004db@cluster-1.wlgfddo.mongodb.net/")
 app.db = client.microblog
 
 @app.route("/", methods=["GET", "POST"])
