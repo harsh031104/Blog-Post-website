@@ -1,9 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for
 import datetime
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://himansh03112004:harsh2004db@cluster-1.wlgfddo.mongodb.net/")
+
+mongodb_username = os.environ.get('MONGODB_USERNAME')
+mongodb_password = os.environ.get('MONGODB_PASSWORD')
+
+print(f"MongoDB Username: {mongodb_username}")
+print(f"MongoDB Password: {mongodb_password}")
+
+mongodb_uri = f"mongodb+srv://{mongodb_username}:{mongodb_password}@cluster-1.wlgfddo.mongodb.net/?tls=true"
+
+client = MongoClient(mongodb_uri)
 app.db = client.microblog
 
 @app.route("/", methods=["GET", "POST"])
